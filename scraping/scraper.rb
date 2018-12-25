@@ -15,7 +15,7 @@ murakami = Nokogiri::HTML(open("https://www.goodreads.com/author/quotes/3354.Har
 def getQuotes(doc)
   quotes = []
   doc.css(".quoteText").select do |quote|
-    if quote.text.length < 640
+    if quote.text.length < 560
       quotes << quote.text.strip.split("\n")[0]
     end
   end
