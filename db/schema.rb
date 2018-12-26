@@ -10,16 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181225213023) do
+ActiveRecord::Schema.define(version: 2018_12_26_144151) do
 
   create_table "authors", force: :cascade do |t|
     t.string "name"
   end
 
+  create_table "likeds", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "quote_id"
+    t.datetime "created_at", null: false
+  end
+
   create_table "quotes", force: :cascade do |t|
     t.integer "author_id"
-    t.string  "content"
-    t.float   "sentiment"
+    t.string "content"
+    t.float "score"
+    t.string "sentiment"
   end
 
   create_table "users", force: :cascade do |t|

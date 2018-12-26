@@ -2,6 +2,10 @@ require 'nokogiri'
 require 'open-uri'
 require 'pry'
 
+require_relative '../config/environment'
+
+
+
 melville = Nokogiri::HTML(open("https://www.goodreads.com/author/quotes/1624.Herman_Melville"))
 
 austen = Nokogiri::HTML(open("https://www.goodreads.com/author/quotes/1265.Jane_Austen"))
@@ -28,4 +32,19 @@ morrison_quotes = getQuotes(morrison)
 baldwin_quotes = getQuotes(baldwin)
 murakami_quotes = getQuotes(murakami)
 
-binding.pry
+def create_quote(author_id, content_array)
+  content_array.each do |content|
+    quote = Quote.new
+    quote.content = content
+    quote.author_id = author_id
+    quote.save
+  end
+end
+
+Quote.destroy_all
+
+create_quote(27, melville_quotes)
+create_quote(28, austen_quotes)
+create_quote(29, morrison_quotes)
+create_quote(30, baldwin_quotes)
+create_quote(31, murakami_quotes)

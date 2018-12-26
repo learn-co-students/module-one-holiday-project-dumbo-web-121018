@@ -6,3 +6,5 @@ gem 'sqlite3', '~> 1.3', '>= 1.3.13'
 gem "pry"
 gem "require_all"
 gem "activerecord"
+gem "nokogiri"
+gem "sentimental"
