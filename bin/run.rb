@@ -1,6 +1,6 @@
 require_relative '../config/environment'
-require 'artii'
-
+# require 'artii'
+# require 'tty-prompt'
 
 
 
@@ -32,7 +32,19 @@ def negative_quotes
   end
 end
 
+def display_quotes
+  prompt = TTY::Prompt.new
+  i = 0
+  while i < positive_quotes.length
+    prompt.select('Which quote?') do |menu|
+      menu.choice name: positive_quotes[i].content,  value: 1
+      menu.choice name: negative_quotes[i].content, value: 2
+      i += 1
+    end
+    # binding.pry
+  end
+end
+
 
 welcome
-
-binding.pry
+display_quotes
