@@ -8,3 +8,5 @@ gem "require_all"
 gem "activerecord"
 gem "nokogiri"
 gem "sentimental"
+gem "tty-prompt"
+gem 'artii', '~> 2.1', '>= 2.1.2'
