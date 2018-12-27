@@ -51,7 +51,19 @@ def display_quotes
   end
 end
 
+def author_score(name)
+  score_sum = Author.all.find_by(name: name).quotes.sum(:score)
+  quote_count = Author.all.find_by(name: name).quotes.length
+  score = score_sum / quote_count
+  if score >= 0.25
+    puts "Based on this sample of quotes, it would seem that #{name} is pretty positive!"
+  elsif score < 0.25 && score > -0.25
+    puts "Based on this sample of quotes, it would seem that #{name} is pretty neutral."
+  else score <= -0.25
+    puts "Based on this sample of quotes, it would seem that #{name} is pretty negative."
+  end
+end
 
-welcome
-display_quotes
-binding.pry
+author_score("Jane Austen")
+# welcome
+# display_quotes
