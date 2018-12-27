@@ -3,10 +3,10 @@ require_relative '../config/environment'
 # require 'tty-prompt'
 
 
-
+# Welcomes new or returning user to game
 def welcome
   a = Artii::Base.new
-  puts a.asciify('Mood Quiz!!!')
+  puts Rainbow(a.asciify('Mood Quiz!!!')).purple
   prompt = TTY::Prompt.new
   username = prompt.ask('What is your name?')
   if User.find_by(name: username) == nil
@@ -17,25 +17,70 @@ def welcome
   else
     puts "Welcome back #{username}"
   end
-  current_user = User.find_by(name: 'Wiljago')
+  current_user = User.find_by(name: username)
   current_user.logged_in = true
   current_user.save
 end
 
+# sorts the mainly positive half of the quotes into one group
 def positive_quotes
   Quote.all.select do |quote|
     quote.score > 0.05
   end
 
 end
-
+# sorts the mainly negative half into another group
 def negative_quotes
   Quote.all.select do |quote|
     quote.score < 0.05
   end
 end
 
-def display_quotes
+# reveals the sentiment of an author given the name as an argument
+def author_score
+  prompt = TTY::Prompt.new
+  name = prompt.select('Select an author to find their mood') do |menu|
+    menu.choice Author.all[0].name
+    menu.choice Author.all[1].name
+    menu.choice Author.all[2].name
+    menu.choice Author.all[3].name
+    menu.choice Author.all[4].name
+  end
+  score_sum = Author.all.find_by(name: name).quotes.sum(:score)
+  quote_count = Author.all.find_by(name: name).quotes.length
+  score = score_sum / quote_count
+  positive_count = Author.all.find_by(name: name).quotes.where("sentiment = 'positive'").count
+  negative_count = Author.all.find_by(name: name).quotes.where("sentiment = 'positive'").count
+  if score >= 0.25
+    puts "Based on this sample of quotes, it would seem that #{name} is pretty positive!"
+  elsif score < 0.25 && score > -0.25
+    puts "Based on this sample of quotes, it would seem that #{name} is pretty neutral."
+  else score <= -0.25
+    puts "Based on this sample of quotes, it would seem that #{name} is pretty negative."
+  end
+  puts "#{name} has #{positive_count} positive quotes and #{negative_count} negative quotes."
+end
+
+# options menu
+def menu
+  prompt = TTY::Prompt.new
+  select = prompt.select('What would you like to do?') do |menu|
+    menu.choice "Take the quiz",  value: 1
+    menu.choice "See author moods", value: 2
+    menu.choice "See my mood", value: 3
+  end
+  if select[:value] == 1
+    quiz
+  elsif select[:value] == 2
+    # author_score selection menu
+    author_score
+  else
+    # some code here
+  end
+end
+
+# mood quiz method
+def quiz
   prompt = TTY::Prompt.new(active_color: :cyan)
   i = 0
   while i < positive_quotes.length
@@ -51,19 +96,22 @@ def display_quotes
   end
 end
 
-def author_score(name)
-  score_sum = Author.all.find_by(name: name).quotes.sum(:score)
-  quote_count = Author.all.find_by(name: name).quotes.length
-  score = score_sum / quote_count
-  if score >= 0.25
-    puts "Based on this sample of quotes, it would seem that #{name} is pretty positive!"
-  elsif score < 0.25 && score > -0.25
-    puts "Based on this sample of quotes, it would seem that #{name} is pretty neutral."
-  else score <= -0.25
-    puts "Based on this sample of quotes, it would seem that #{name} is pretty negative."
-  end
+# determines user mood
+def user_score
+  binding.pry
+  user_id = User.all.find_by(logged_in: true).id
+  score_sum = ""
+  quote_count = User.all.find_by(logged_in: true).quotes.length
 end
 
-author_score("Jane Austen")
+# logs out user after session
+def logout
+  current_user = User.find_by(logged_in: true)
+  current_user.logged_in = false
+  current_user.save
+end
+
 # welcome
-# display_quotes
+menu
+# quiz
+# logout

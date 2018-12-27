@@ -10,3 +10,4 @@ gem "nokogiri"
 gem "sentimental"
 gem "tty-prompt"
 gem 'artii', '~> 2.1', '>= 2.1.2'
+gem 'rainbow', '~> 3.0'
