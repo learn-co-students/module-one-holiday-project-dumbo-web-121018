@@ -17,6 +17,9 @@ def welcome
   else
     puts "Welcome back #{username}"
   end
+  current_user = User.find_by(name: 'Wiljago')
+  current_user.logged_in = true
+  current_user.save
 end
 
 def positive_quotes
@@ -33,18 +36,22 @@ def negative_quotes
 end
 
 def display_quotes
-  prompt = TTY::Prompt.new
+  prompt = TTY::Prompt.new(active_color: :cyan)
   i = 0
   while i < positive_quotes.length
-    prompt.select('Which quote?') do |menu|
-      menu.choice name: positive_quotes[i].content,  value: 1
-      menu.choice name: negative_quotes[i].content, value: 2
-      i += 1
+    answer = prompt.select('Which quote?') do |menu|
+      menu.choice positive_quotes[i].content
+      menu.choice name: negative_quotes[i].content
     end
-    # binding.pry
+    new_liked = Liked.new
+    new_liked.user_id = User.find_by(logged_in: true).id
+    new_liked.quote_id = Quote.find_by(content: answer).id
+    new_liked.save
+    i += 1
   end
 end
 
 
 welcome
 display_quotes
+binding.pry

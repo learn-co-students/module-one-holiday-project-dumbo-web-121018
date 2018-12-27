@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_26_144151) do
+ActiveRecord::Schema.define(version: 2018_12_26_234521) do
 
   create_table "authors", force: :cascade do |t|
     t.string "name"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2018_12_26_144151) do
 
   create_table "users", force: :cascade do |t|
     t.string "name"
+    t.boolean "logged_in"
   end
 
 end
