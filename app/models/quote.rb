@@ -1,4 +1,4 @@
 class Quote < ActiveRecord::Base
-  belongs_to :authors
-  belongs_to :users
+  belongs_to :author
+  has_many :likeds
 end

@@ -61,6 +61,23 @@ def author_score
   puts "#{name} has #{positive_count} positive quotes and #{negative_count} negative quotes."
 end
 
+# mood quiz method
+def quiz
+  prompt = TTY::Prompt.new(active_color: :cyan)
+  i = 0
+  while i < positive_quotes.length
+    answer = prompt.select('Which quote?') do |menu|
+      menu.choice positive_quotes[i].content
+      menu.choice name: negative_quotes[i].content
+    end
+    new_liked = Liked.new
+    new_liked.user_id = User.find_by(logged_in: true).id
+    new_liked.quote_id = Quote.find_by(content: answer).id
+    new_liked.save
+    i += 1
+  end
+end
+
 # options menu
 def menu
   prompt = TTY::Prompt.new
@@ -79,29 +96,28 @@ def menu
   end
 end
 
-# mood quiz method
-def quiz
-  prompt = TTY::Prompt.new(active_color: :cyan)
-  i = 0
-  while i < positive_quotes.length
-    answer = prompt.select('Which quote?') do |menu|
-      menu.choice positive_quotes[i].content
-      menu.choice name: negative_quotes[i].content
-    end
-    new_liked = Liked.new
-    new_liked.user_id = User.find_by(logged_in: true).id
-    new_liked.quote_id = Quote.find_by(content: answer).id
-    new_liked.save
-    i += 1
-  end
-end
+
 
 # determines user mood
 def user_score
-  binding.pry
-  user_id = User.all.find_by(logged_in: true).id
-  score_sum = ""
-  quote_count = User.all.find_by(logged_in: true).quotes.length
+  user = User.all.find_by(logged_in: true)
+
+  score_sum = user.quotes.sum(:score)
+  quote_count = user.quotes.length
+  score = score_sum / quote_count
+
+  positive_count = user.quotes.where("sentiment = 'positive'").count
+  negative_count = user.quotes.where("sentiment = 'positive'").count
+  neutral_count = user.quotes.where("sentiment = 'neutral'").count
+
+  if score >= 0.25
+    puts "Based on this sample of quotes, it would seem that #{user.name} is pretty positive!"
+  elsif score < 0.25 && score > -0.25
+    puts "Based on this sample of quotes, it would seem that #{user.name} is pretty neutral."
+  else score <= -0.25
+    puts "Based on this sample of quotes, it would seem that #{user.name} is pretty negative."
+  end
+  puts "#{user.name} has liked #{positive_count} positive quotes, #{negative_count} negative quotes, and #{neutral_count} neutral quotes."
 end
 
 # logs out user after session
@@ -111,7 +127,9 @@ def logout
   current_user.save
 end
 
-# welcome
-menu
+welcome
+# menu
 # quiz
 # logout
+
+user_score
