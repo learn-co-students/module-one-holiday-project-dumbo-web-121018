@@ -25,6 +25,7 @@ end
 # sorts the mainly positive half of the quotes into one group
 def positive_quotes
   Quote.all.select do |quote|
+    # binding.pry
     quote.score > 0.05
   end
 
@@ -50,7 +51,8 @@ def author_score
   quote_count = Author.all.find_by(name: name).quotes.length
   score = score_sum / quote_count
   positive_count = Author.all.find_by(name: name).quotes.where("sentiment = 'positive'").count
-  negative_count = Author.all.find_by(name: name).quotes.where("sentiment = 'positive'").count
+  negative_count = Author.all.find_by(name: name).quotes.where("sentiment = 'negative'").count
+  neutral_count = negative_count = Author.all.find_by(name: name).quotes.where("sentiment = 'neutral'").count
   if score >= 0.25
     puts "Based on this sample of quotes, it would seem that #{name} is pretty positive!"
   elsif score < 0.25 && score > -0.25
@@ -58,7 +60,7 @@ def author_score
   else score <= -0.25
     puts "Based on this sample of quotes, it would seem that #{name} is pretty negative."
   end
-  puts "#{name} has #{positive_count} positive quotes and #{negative_count} negative quotes."
+  puts "#{name} has #{positive_count} positive quotes,  #{negative_count} negative quotes, and #{neutral_count} neutral quotes."
   menu
 end
 
@@ -116,7 +118,7 @@ def user_score
 
   if score >= 0.25
     puts "Based on this sample of quotes, it would seem that #{user.name} is pretty positive!"
-  elsif score < 0.25 && score > -0.25
+  elsif score < 0.24 && score > -0.24
     puts "Based on this sample of quotes, it would seem that #{user.name} is pretty neutral."
   else score <= -0.25
     puts "Based on this sample of quotes, it would seem that #{user.name} is pretty negative."
@@ -132,9 +134,9 @@ def logout
   current_user.save
 end
 
-path = '../images/james_baldwin.png'
-
-Rothko::Drawing.new(path, 300)
+# path = '../images/james_baldwin.png'
+#
+Rothko::Drawing.new("../images/haruki_murakami.png", 284)
 
 # welcome
 # menu

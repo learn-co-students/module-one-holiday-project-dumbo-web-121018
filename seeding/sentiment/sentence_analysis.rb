@@ -1,4 +1,4 @@
-require_relative '../config/environment'
+require_relative '../../config/environment'
 require 'sentimental'
 
 analyzer = Sentimental.new
@@ -12,7 +12,7 @@ def analyze_assign_sentiment
     quote.score = analyzer.score quote.content
     quote.save
   end
-  binding.pry
+  # binding.pry
 end
 
 analyze_assign_sentiment
