@@ -2,9 +2,9 @@ require 'nokogiri'
 require 'open-uri'
 require 'pry'
 
-require_relative '../config/environment'
+require_relative '../../config/environment'
 
-
+Quote.destroy_all
 
 melville = Nokogiri::HTML(open("https://www.goodreads.com/author/quotes/1624.Herman_Melville"))
 

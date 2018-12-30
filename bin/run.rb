@@ -59,6 +59,7 @@ def author_score
     puts "Based on this sample of quotes, it would seem that #{name} is pretty negative."
   end
   puts "#{name} has #{positive_count} positive quotes and #{negative_count} negative quotes."
+  menu
 end
 
 # mood quiz method
@@ -76,6 +77,7 @@ def quiz
     new_liked.save
     i += 1
   end
+  menu
 end
 
 # options menu
@@ -85,14 +87,16 @@ def menu
     menu.choice "Take the quiz",  value: 1
     menu.choice "See author moods", value: 2
     menu.choice "See my mood", value: 3
+    menu.choice "Logout", value: 4
   end
   if select[:value] == 1
     quiz
   elsif select[:value] == 2
-    # author_score selection menu
     author_score
+  elsif select[:value] ==3
+    user_score
   else
-    # some code here
+    logout
   end
 end
 
@@ -118,6 +122,7 @@ def user_score
     puts "Based on this sample of quotes, it would seem that #{user.name} is pretty negative."
   end
   puts "#{user.name} has liked #{positive_count} positive quotes, #{negative_count} negative quotes, and #{neutral_count} neutral quotes."
+  menu
 end
 
 # logs out user after session
@@ -127,9 +132,11 @@ def logout
   current_user.save
 end
 
-welcome
+path = '../images/james_baldwin.png'
+
+Rothko::Drawing.new(path, 300)
+
+# welcome
 # menu
 # quiz
 # logout
-
-user_score

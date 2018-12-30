@@ -11,3 +11,5 @@ gem "sentimental"
 gem "tty-prompt"
 gem 'artii', '~> 2.1', '>= 2.1.2'
 gem 'rainbow', '~> 3.0'
+gem 'chunky_png', '~> 1.3', '>= 1.3.5'
+gem 'rothko', '~> 0.1.3'
