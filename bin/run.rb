@@ -53,6 +53,7 @@ def author_score
   positive_count = Author.all.find_by(name: name).quotes.where("sentiment = 'positive'").count
   negative_count = Author.all.find_by(name: name).quotes.where("sentiment = 'negative'").count
   neutral_count = negative_count = Author.all.find_by(name: name).quotes.where("sentiment = 'neutral'").count
+  Rothko::Drawing.new(Author.all.find_by(name: name).img_url, 30)
   if score >= 0.25
     puts "Based on this sample of quotes, it would seem that #{name} is pretty positive!"
   elsif score < 0.25 && score > -0.25
@@ -82,6 +83,37 @@ def quiz
   menu
 end
 
+
+# determines user mood
+def user_score
+  user = User.all.find_by(logged_in: true)
+
+  score_sum = user.quotes.sum(:score)
+  quote_count = user.quotes.length
+  score = score_sum / quote_count
+
+  positive_count = user.quotes.where("sentiment = 'positive'").count
+  negative_count = user.quotes.where("sentiment = 'positive'").count
+  neutral_count = user.quotes.where("sentiment = 'neutral'").count
+
+  if score >= 0.25
+    puts "Based on this sample of quotes, it would seem that #{user.name} is pretty positive!"
+  elsif score <= 0.24 && score >= -0.24
+    puts "Based on this sample of quotes, it would seem that #{user.name} is pretty neutral."
+  else score <= -0.25
+    puts "Based on this sample of quotes, it would seem that #{user.name} is pretty negative."
+  end
+  puts "#{user.name} has liked #{positive_count} positive quotes, #{negative_count} negative quotes, and #{neutral_count} neutral quotes."
+  menu
+end
+
+# logs out user after session
+def logout
+  current_user = User.find_by(logged_in: true)
+  current_user.logged_in = false
+  current_user.save
+end
+
 # options menu
 def menu
   prompt = TTY::Prompt.new
@@ -104,41 +136,10 @@ end
 
 
 
-# determines user mood
-def user_score
-  user = User.all.find_by(logged_in: true)
-
-  score_sum = user.quotes.sum(:score)
-  quote_count = user.quotes.length
-  score = score_sum / quote_count
-
-  positive_count = user.quotes.where("sentiment = 'positive'").count
-  negative_count = user.quotes.where("sentiment = 'positive'").count
-  neutral_count = user.quotes.where("sentiment = 'neutral'").count
-
-  if score >= 0.25
-    puts "Based on this sample of quotes, it would seem that #{user.name} is pretty positive!"
-  elsif score < 0.24 && score > -0.24
-    puts "Based on this sample of quotes, it would seem that #{user.name} is pretty neutral."
-  else score <= -0.25
-    puts "Based on this sample of quotes, it would seem that #{user.name} is pretty negative."
-  end
-  puts "#{user.name} has liked #{positive_count} positive quotes, #{negative_count} negative quotes, and #{neutral_count} neutral quotes."
-  menu
-end
-
-# logs out user after session
-def logout
-  current_user = User.find_by(logged_in: true)
-  current_user.logged_in = false
-  current_user.save
-end
-
 # path = '../images/james_baldwin.png'
 #
-Rothko::Drawing.new("../images/haruki_murakami.png", 284)
 
-# welcome
-# menu
+welcome
+menu
 # quiz
 # logout

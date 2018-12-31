@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_26_234521) do
+ActiveRecord::Schema.define(version: 2018_12_31_174738) do
 
   create_table "authors", force: :cascade do |t|
     t.string "name"
+    t.string "img_url"
   end
 
   create_table "likeds", force: :cascade do |t|
