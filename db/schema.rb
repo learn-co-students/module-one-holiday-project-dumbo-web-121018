@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_31_174738) do
+ActiveRecord::Schema.define(version: 2019_01_02_154250) do
 
   create_table "authors", force: :cascade do |t|
     t.string "name"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2018_12_31_174738) do
     t.string "content"
     t.float "score"
     t.string "sentiment"
+    t.float "magnitude"
   end
 
   create_table "users", force: :cascade do |t|
