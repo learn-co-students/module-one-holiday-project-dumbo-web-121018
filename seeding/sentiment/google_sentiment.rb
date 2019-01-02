@@ -20,6 +20,13 @@ def analyze_assign_sentiment
     puts "Score: #{sentiment.score}, #{sentiment.magnitude}"
     quote.score = sentiment.score
     quote.magnitude = sentiment.magnitude
+    if quote.score > 0.1 && quote.magnitude > 0.2
+      quote.sentiment = "positive"
+    elsif quote.score < 0 && quote.magnitude > 0.2
+      quote.sentiment = "negative"
+    elsif (0..0.19).include?(quote.magnitude)
+      quote.sentiment = "neutral"
+    end
     quote.save
   end
 end

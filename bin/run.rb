@@ -66,6 +66,8 @@ def author_score
     puts "Based on this sample of quotes, it would seem that #{name} is somewhat negative."
   elsif (0..0.19).include?(magnitude)
     puts "Based on this samle of quotes, it would seem that #{name} is pretty neutral"
+  else (0...0.1).include?(score) && magnitude > 0.2
+    puts "Based on this samle of quotes, it would seem that #{name} is a mixed bag!"
   end
   puts "Score: #{score}"
   puts "Magnitude: #{magnitude}"
