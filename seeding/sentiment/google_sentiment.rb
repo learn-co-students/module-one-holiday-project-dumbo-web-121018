@@ -1,8 +1,5 @@
 require_relative '../../config/environment'
 
-project_id = 1036024684452
-key_file   = "../../QuoteMoods-49b82bfb96bd.json"
-
 # Imports the Google Cloud client library
 require "google/cloud/language"
 
