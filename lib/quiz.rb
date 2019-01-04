@@ -3,8 +3,11 @@ def quiz
 
 # loops for the length of half of all the quotes allowing the user to choose between one of two quotes
   prompt = TTY::Prompt.new(active_color: :cyan)
+
+# needs two iterators, one for the quotes and one for the while loop
   i = 0
-  while i < (Quote.all.length / 2)
+  x = 0
+  while x < (Quote.all.count / 2)
     answer = prompt.select('Which quote?') do |menu|
       menu.choice name: Quote.all[i].content
       menu.choice name: Quote.all[i+1].content
@@ -21,8 +24,9 @@ def quiz
 
 # saves new instance of liked
     new_liked.save
-
-# iterator must increment by 2 because we are going through two quotes at a time
+# this iterator must increment by 1 because it is for the while loop
+    x += 1
+# this iterator must increment by 2 because we are going through two quotes at a time
     i += 2
   end
 
