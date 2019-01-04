@@ -13,7 +13,14 @@ Mood quiz is an app that has you select between two quotes until you reach the e
 
 ### Issues
 
-Adding new authors is currently unavailable.
+Adding new authors is currently unavailable. Seeding process must be done manually. If someone were to clone this repo and try to play the game, they would have to run:
+
+`ruby seeding/seed_authors`
+`ruby run seeding/add_img_urls`
+`ruby run seeding/scraping/quote_source`
+`ruby run seeding/sentiment/google_sentiment`
+
+...in order before being able to run `ruby bin/run`.
 
 ### Mostly Fixed
 
