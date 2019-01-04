@@ -1,6 +1,7 @@
 # options menu
 def menu
-  user = User.find_by(logged_in: true)
+
+# displays a start menu to the user and saves the value of the response to select
   prompt = TTY::Prompt.new
   select = prompt.select('What would you like to do?') do |menu|
     menu.choice "Take the quiz",  value: 1
@@ -10,17 +11,21 @@ def menu
     menu.choice "Add quote", value: 5
     menu.choice "Logout", value: 6
   end
-  if select[:value] == 1
-    quiz
-  elsif select[:value] == 2
-    author_score
-  elsif select[:value] == 3
-    user_total_score
-  elsif select[:value] == 4
-    user_score_by_date
-  elsif select[:value] == 5
-    add_quote
-  else
-    logout
+
+# runs a different method depending on the user selection
+  case select[:value]
+    when 1
+        quiz
+    when 2
+      author_score
+    when 3
+      user_total_score
+    when 4
+      user_score_by_date
+    when 5
+      add_quote
+    when 6
+      logout
   end
+
 end
