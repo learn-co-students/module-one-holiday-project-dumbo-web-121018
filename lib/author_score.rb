@@ -25,7 +25,7 @@ def author_score
   Rothko::Drawing.new(Author.all.find_by(name: name).img_url, 55)
 
 # Evaluate the author's score and return a simple analysis
-  if score > 0.5
+  if score > 0.5 && magnitude > 0.3
     puts "Based on this sample of quotes, it would seem that #{name} is very positive!"
   elsif (score > 0.1) && (magnitude > 0.2)
     puts "Based on this sample of quotes, it would seem that #{name} is somewhat positive."
@@ -35,7 +35,7 @@ def author_score
     puts "Based on this sample of quotes, it would seem that #{name} is somewhat negative."
   elsif (0..0.19).include?(magnitude)
     puts "Based on this samle of quotes, it would seem that #{name} is pretty neutral"
-  elsif (score < 0.1) && (magnitude > 0.2)
+  elsif (score < 0.09) && (magnitude > 0.2)
     puts "Based on this samle of quotes, it would seem that #{name} is a mixed bag!"
   end
 
@@ -44,7 +44,7 @@ def author_score
   puts "Magnitude: #{magnitude}"
   puts "#{name} has #{positive_count} positive quotes,  #{negative_count} negative quotes, and #{neutral_count} neutral quotes."
 
-# returns to the menu 
+# returns to the menu
   menu
 
 end

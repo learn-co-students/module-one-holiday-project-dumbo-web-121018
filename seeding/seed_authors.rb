@@ -1,14 +1,9 @@
-require 'nokogiri'
-require 'open-uri'
-require 'pry'
-
 require_relative '../config/environment'
-require_relative '../scraping/scraper'
 
-
+# destroy all author instances before adding them to DB to avoid repetition
 Author.destroy_all
 
-
+# create new Author instances, assign a name, and save to DB
 melville = Author.new
 melville.name = "Herman Melville"
 melville.save
