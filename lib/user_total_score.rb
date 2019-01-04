@@ -17,18 +17,19 @@ def user_total_score
   neutral_count = user.quotes.where("sentiment = 'neutral'").count
 
 # performs simple analysis and returns results based on cumulative score and magnitude
-  if score > 0.5 && magnitude > 0.5
-    puts "Based on this sample of quotes, it would seem that #{user.name} is very positive!"
-  elsif score > 0.1 && magnitude > 0.2
-    puts "Based on this sample of quotes, it would seem that #{user.name} is somewhat positive."
-  elsif score < 0 && magnitude > 0.5
-    puts "Based on this sample of quotes, it would seem that #{user.name} is very negative."
-  elsif score < 0 && magnitude > 0.2
-    puts "Based on this sample of quotes, it would seem that #{user.name} is somewhat negative."
-  elsif (0..0.19).include?(magnitude)
-    puts "Based on this samle of quotes, it would seem that #{user.name} is pretty neutral"
-  else (0...0.1).include?(score) && magnitude > 0.2
-    puts "Based on this samle of quotes, it would seem that #{user.name} is a mixed bag!"
+  case
+    when score > 0.5 && magnitude > 0.5
+      puts "Based on this sample of quotes, it would seem that #{user.name} is very positive!"
+    when score > 0.1 && magnitude > 0.2
+      puts "Based on this sample of quotes, it would seem that #{user.name} is somewhat positive."
+    when score < 0 && magnitude > 0.5
+      puts "Based on this sample of quotes, it would seem that #{user.name} is very negative."
+    when score < 0 && magnitude > 0.2
+      puts "Based on this sample of quotes, it would seem that #{user.name} is somewhat negative."
+    when (0..0.19).include?(magnitude)
+      puts "Based on this samle of quotes, it would seem that #{user.name} is pretty neutral"
+    when (0...0.1).include?(score) && magnitude > 0.2
+      puts "Based on this samle of quotes, it would seem that #{user.name} is a mixed bag!"
   end
   puts "Score: #{score}"
   puts "Magnitude: #{magnitude}"

@@ -25,18 +25,19 @@ def author_score
   Rothko::Drawing.new(Author.all.find_by(name: name).img_url, 55)
 
 # Evaluate the author's score and return a simple analysis
-  if score > 0.5 && magnitude > 0.3
+  case 
+    when (score > 0.5) && (magnitude > 0.3)
     puts "Based on this sample of quotes, it would seem that #{name} is very positive!"
-  elsif (score > 0.1) && (magnitude > 0.2)
-    puts "Based on this sample of quotes, it would seem that #{name} is somewhat positive."
-  elsif (score < 0) && (magnitude > 0.5)
-    puts "Based on this sample of quotes, it would seem that #{name} is very negative."
-  elsif (score < 0) && (magnitude > 0.2)
-    puts "Based on this sample of quotes, it would seem that #{name} is somewhat negative."
-  elsif (0..0.19).include?(magnitude)
-    puts "Based on this samle of quotes, it would seem that #{name} is pretty neutral"
-  elsif (score < 0.09) && (magnitude > 0.2)
-    puts "Based on this samle of quotes, it would seem that #{name} is a mixed bag!"
+    when (score > 0.1) && (magnitude > 0.2)
+      puts "Based on this sample of quotes, it would seem that #{name} is somewhat positive."
+    when (score < 0) && (magnitude > 0.5)
+      puts "Based on this sample of quotes, it would seem that #{name} is very negative."
+    when (score < 0) && (magnitude > 0.2)
+      puts "Based on this sample of quotes, it would seem that #{name} is somewhat negative."
+    when (0..0.19).include?(magnitude)
+      puts "Based on this samle of quotes, it would seem that #{name} is pretty neutral"
+    when (score < 0.09) && (magnitude > 0.2)
+      puts "Based on this samle of quotes, it would seem that #{name} is a mixed bag!"
   end
 
   # Display the average score & magnitude, along with counts of pos, neg, and neutral quotes.
